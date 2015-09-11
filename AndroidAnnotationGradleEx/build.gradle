@@ -1,0 +1,139 @@
+buildscript {
+    repositories {
+        jcenter()
+    }
+    dependencies {
+        classpath 'com.android.tools.build:gradle:1.3.0'
+        classpath 'com.neenbedankt.gradle.plugins:android-apt:1.4'
+    }
+}
+apply plugin: 'com.android.application'
+apply plugin: 'android-apt'
+def AAVersion = '3.3.2'
+
+dependencies {
+    apt "org.androidannotations:androidannotations:$AAVersion"
+    compile "org.androidannotations:androidannotations-api:$AAVersion"
+
+}
+
+apt {
+    arguments {
+        androidManifestFile variant.outputs[0].processResources.manifestFile
+        // if you have multiple outputs (when using splits), you may want to have other index than 0
+
+        resourcePackageName 'me.fanxu.androidannotationgradleex'
+
+        // you can set annotation processing options here
+        logLevel 'INFO'
+        logAppenderConsole true
+    }
+}
+// YoungjaeKim (2015-01-03 14:17:16): gradlew bapulSquareDot:dependencies -q 명령어를 이용하면 dependencies 관리가 편하다.
+// noinspection GroovyAssignabilityCheck
+dependencies {
+    compile fileTree(dir: 'libs', include: '*.jar', exclude: 'android-support-v4.jar')
+    compile 'com.android.support:support-v4:23.0.1'
+    repositories {
+        jcenter()
+    }
+
+    android {
+        compileSdkVersion 22
+        buildToolsVersion '22.0.1' /*http://stackoverflow.com/a/26449011*/
+        // noinspection GroovyAssignabilityCheck
+        compileOptions {
+            encoding "UTF-8"
+            sourceCompatibility JavaVersion.VERSION_1_7
+            targetCompatibility JavaVersion.VERSION_1_7
+        }
+        // noinspection GroovyAssignabilityCheck
+        dexOptions { // 속도향상. http://stackoverflow.com/a/21136780/361100
+            preDexLibraries = false
+            javaMaxHeapSize "2g"
+        }
+        // noinspection GroovyAssignabilityCheck
+        defaultConfig {
+            versionCode 10129 // 테스트는 저사양 테스트를 위해 10xxx 코드로 한다.
+            versionName '2.5.17.dev.1'
+            // 개발은 2.5.6.dev.1 형태. QA는 2.5.6.qa.1 형태. 릴리즈는 반드시 숫자+점 형태여야 함.
+            minSdkVersion 10 // versionCode와 맞추어 바꿔준다. 테스트할 때는 10.
+            targetSdkVersion 22
+            multiDexEnabled = false
+        }
+        // noinspection GroovyAssignabilityCheck
+        lintOptions {
+            //  checkReleaseBuilds false
+            // Or, if you prefer, you can continue to check for errors in release builds,
+            // but continue the build even when errors are found:
+            abortOnError false
+            disable 'InvalidPackage'
+        }
+        // noinspection GroovyAssignabilityCheck
+        signingConfigs {
+            debug {
+                project.ext.loadSign = false
+//            defaultConfig.versionCode = 1
+            }
+            release {
+                project.ext.loadSign = true
+                // Release apk에 버전명을 넣으려면 아래 코멘트를 지운다.
+                applicationVariants.all { variant ->
+                    variant.outputs.each { output ->
+                        def file = output.outputFile
+                        output.outputFile = new File(file.parent, file.name.replace(".apk", "-" + defaultConfig.versionCode + ".apk"))
+                    }
+                }
+            }
+        }
+        // noinspection GroovyAssignabilityCheck
+        buildTypes {
+            debug {
+                minifyEnabled false
+                buildConfigField "boolean", "DEBUG_MODE", "true"
+                signingConfig signingConfigs.debug
+            }
+            release {
+                minifyEnabled false
+                buildConfigField "boolean", "DEBUG_MODE", "false"
+                signingConfig signingConfigs.release
+            }
+        }
+        // noinspection GroovyAssignabilityCheck
+        sourceSets {
+            // noinspection GroovyAssignabilityCheck
+            main {
+                manifest.srcFile 'src/main/AndroidManifest.xml'
+                java.srcDirs = ['src/main/java']
+                aidl.srcDirs = ['src/main/java']
+                renderscript.srcDirs = ['src/main/java']
+                res.srcDirs = ['src/main/res']
+                assets.srcDirs = ['assets']
+            }
+            packagingOptions {
+                exclude 'META-INF/DEPENDENCIES.txt'
+                exclude 'META-INF/LICENSE.txt'
+                exclude 'META-INF/NOTICE.txt'
+                exclude 'META-INF/NOTICE'
+                exclude 'META-INF/LICENSE'
+                exclude 'META-INF/DEPENDENCIES'
+                exclude 'META-INF/notice.txt'
+                exclude 'META-INF/license.txt'
+                exclude 'META-INF/dependencies.txt'
+                exclude 'META-INF/LGPL2.1'
+                exclude 'META-INF/services/javax.annotation.processing.Processor'
+                exclude 'LICENSE.txt'
+            }
+            // Move the build types to build-types/<type>
+            // For instance, build-types/debug/java, build-types/debug/AndroidManifest.xml, ...
+            // This moves them out of them default location under src/<type>/... which would
+            // conflict with src/ being used by the main source set.
+            // Adding new build types or product flavors should be accompanied
+            // by a similar customization.
+            debug.setRoot('build-types/debug')
+            release.setRoot('build-types/release')
+        }
+        productFlavors {
+        }
+    }
+}
