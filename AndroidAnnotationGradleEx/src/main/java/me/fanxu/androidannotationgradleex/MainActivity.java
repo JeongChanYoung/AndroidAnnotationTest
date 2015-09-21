@@ -1,14 +1,12 @@
 package me.fanxu.androidannotationgradleex;
 
-import android.os.Bundle;
 import android.app.Activity;
-import android.view.Menu;
-
-import org.androidannotations.annotations.EActivity;
 
 /**
- * Noroo (2015-09-11 22:13:28):
+ * Created by Kyde on 2015-09-21.
  */
-@EActivity(R.layout.activity_main)
 public class MainActivity extends Activity {
+
+
+
 }
