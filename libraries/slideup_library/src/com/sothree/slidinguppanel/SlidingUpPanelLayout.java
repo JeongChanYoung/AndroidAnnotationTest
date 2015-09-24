@@ -19,7 +19,6 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.accessibility.AccessibilityEvent;
-
 import com.nineoldandroids.view.animation.AnimatorProxy;
 import com.sothree.slidinguppanel.library.R;
 
@@ -976,6 +975,7 @@ public class SlidingUpPanelLayout extends ViewGroup {
                 mMainView.setTranslationY(mainViewOffset);
             } else {
                 AnimatorProxy.wrap(mMainView).setTranslationY(mainViewOffset);
+
             }
         }
         // Dispatch the slide event

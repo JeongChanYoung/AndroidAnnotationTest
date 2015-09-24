@@ -63,6 +63,7 @@ public class ActLogin extends Activity {
 
         callbackManager = CallbackManager.Factory.create();
 
+
     }
 
     @Override
