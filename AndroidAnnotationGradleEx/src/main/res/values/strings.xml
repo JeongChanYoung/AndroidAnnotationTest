@@ -4,5 +4,9 @@
     <string name="app_name">AndroidAnnotationGradleEx</string>
     <string name="action_settings">Settings</string>
     <string name="hello_world">Hello world!</string>
-
+    <string name="facebook_app_id">774378769375487</string>
+    <string name="kakao_app_key">a1ffd716cc84e3c8bcddb01e686bf009</string>
+    <string name="kakao_scheme">kakaoa1ffd716cc84e3c8bcddb01e686bf009</string>
+    <string name="kakaolink_host">kakaolink</string>
 </resources>
+

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <declare-styleable name="PagerSlidingTabStrip">
+        <attr name="p_indicatorColor" format="color" />
+        <attr name="p_underlineColor" format="color" />
+        <attr name="p_dividerColor" format="color" />
+        <attr name="p_indicatorHeight" format="dimension" />
+        <attr name="p_underlineHeight" format="dimension" />
+        <attr name="p_dividerPadding" format="dimension" />
+        <attr name="p_tabPaddingLeftRight" format="dimension" />
+        <attr name="p_scrollOffset" format="dimension" />
+        <attr name="p_tabBackground" format="reference" />
+        <attr name="p_shouldExpand" format="boolean" />
+        <attr name="p_textAllCaps" format="boolean" />
+    </declare-styleable>
+
+</resources>
